@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.BudgetDao">
+	<resultMap type="com.safewind.pms.po.Budget" id="budget">
+		<result column="id" property="id"/>
+		<result column="boat_id" property="boatId"/>
+		<result column="year" property="year"/>
+		<result column="totaled" property="totaled"/>
+		<result column="remained" property="remained"/>
+		<result column="content" property="content"/>
+		<result column="create_id" property="createId"/>
+		<result column="create_time" property="createTime"/>
+		<result column="is_del" property="is_del"/>
+	</resultMap>
+	
+	<insert id="BudgetCreate" parameterType="com.safewind.pms.po.Budget"
+		useGeneratedKeys="true" keyProperty="id">
+		
+		insert into hh_budget
+		(boat_id,year,totaled,remained,content,create_id,create_time)
+		values
+		(#{boatId},#{year},#{totaled},#{remained},#{content},#{createId},#{createTime})
+	</insert>
+	
+	<select id="BudgetFind" resultMap="budget">
+		select	id,totaled,remained,content,year
+		from	hh_budget 
+		where	boat_id = #{0} and year=#{1} and is_del = 0 
+	</select>
+
+	<update id="updateRemained" >
+		Update hh_budget
+		set  remained = #{2}
+		where boat_id = #{0} and year=#{1} and is_del = 0
+	</update>
+	
+	<resultMap type="com.safewind.pms.po.BudgetUsgae" id="budgetUsgae">
+		<result column="id" property="id" />
+		<result column="use_time" property="useTime" />
+		<result column="count" property="count" />
+		<result column="sailor_id" property="sailorId" />
+		<result column="create_id" property="createId" />
+		<result column="create_time" property="createTime" />
+		<result column="is_del" property="is_del" />
+		<result column="boat_id" property="boatId" />
+		<result column="year" property="year" />
+		<result column="content" property="content" />
+	</resultMap>
+	
+	<select id="BudgetUsgaeList" resultMap="budgetUsgae">
+		select	id,use_time,count,sailor_id,create_id,create_time,year,content 
+		from	hh_budget_usgae
+		where	boat_id = #{0} and year=#{1} and is_del = 0
+	</select>
+	
+	<select id="allYearFind" resultType="java.lang.Integer">
+		select year from hh_budget where 1=1
+	</select>
+</mapper>

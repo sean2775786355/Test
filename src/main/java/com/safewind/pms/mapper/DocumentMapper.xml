@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.DocumentDao">
+	<resultMap  id="document"  type="com.safewind.pms.po.Document" >
+		<result column="id" property="id"/>
+		<result column="boat_id" property="boat_id"/>
+		<result column="boat_name" property="boat_name"/>
+		<result column="num" property="num"/>
+		<result column="name" property="name"/>
+		<result column="author" property="author"/>
+		<result column="publish" property="publish"/>
+		<result column="unit" property="unit"/>
+		<result column="cost" property="cost"/>
+		<result column="currency" property="currency"/>
+		<result column="work_date" property="work_date"/>
+		<result column="out_date" property="out_date"/>
+		<result column="create_id" property="create_id"/>
+		<result column="create_time" property="create_time"/>
+		<result column="status" property="status"/>
+		<result column="content" property="content"/>
+		<result column="is_del" property="is_del"/>
+	</resultMap>
+	
+	<insert id="documentAdd" parameterType="com.safewind.pms.po.Document"
+		useGeneratedKeys="true" keyProperty="id">		
+		insert into hh_document 
+		(boat_id , boat_name , num , name , author , publish , 
+		unit , cost , currency , work_date ,out_date , create_id , create_time ,status ,content ,is_del ) 
+		values (#{boat_id},#{boat_name},#{num},#{name},#{author},#{publish},#{unit},
+		#{cost},#{currency},#{work_date},#{out_date},#{create_id},#{create_time},#{status},#{content},#{is_del})
+	</insert>
+	
+	
+	<select id="documentList" resultMap="document">
+		Select id, boat_id, boat_name , num , name , author , publish , 
+		unit , cost , currency , work_date , out_date , create_id , create_time ,status,
+		content
+		from hh_document 
+		where is_del = 0
+	</select>
+	
+	<select id="FindDocumentByid" resultMap="document">
+		Select id, boat_id, boat_name , num , name , author , publish , 
+		unit , cost , currency , work_date , out_date , create_id , create_time ,status,
+		content
+		from hh_document 
+		where is_del = 0 and id = #{id}
+	</select>
+	
+	<update id="DeleteDocument" >
+		Update hh_document set is_del = 1 where id = #{document_id}
+    </update>
+    
+    <update id="UpdateDocument" >
+		Update hh_document 
+		set boat_id = #{boat_id} , boat_name = #{boat_name} , num = #{num} , name = #{name} , 
+		author = #{author} , publish = #{publish} , unit = #{unit} , cost = #{cost} ,
+		currency = #{currency} , work_date = #{work_date} , out_date = #{out_date} , create_id = #{create_id} , 
+		create_time = #{create_time} , status = #{status}, content = #{content} where id = #{id}
+    </update>
+    
+    <resultMap  id="documentApply"  type="com.safewind.pms.po.DocumentApply" >
+		<result column="id" property="id"/>
+		<result column="boat_id" property="boat_id"/>
+		<result column="boat_name" property="boat_name"/>
+		<result column="num" property="num"/>
+		<result column="name" property="name"/>
+		<result column="author" property="author"/>
+		<result column="publish" property="publish"/>
+		<result column="unit" property="unit"/>
+		<result column="pre_date" property="pre_date"/>
+		<result column="pre_local" property="pre_local"/>
+		<result column="create_id" property="create_id"/>
+		<result column="create_time" property="create_time"/>
+		<result column="status" property="status"/>
+		<result column="content" property="content"/>
+		<result column="content_check" property="content_check"/>
+		<result column="check_id" property="check_id"/>
+		<result column="is_del" property="is_del"/>
+	</resultMap>
+	
+	<insert id="documentApplyAdd" parameterType="com.safewind.pms.po.DocumentApply"
+		useGeneratedKeys="true" keyProperty="id">		
+		insert into hh_document_apply 
+		(boat_id , boat_name , num , name , author , publish , 
+		unit , pre_date ,pre_local , create_id , create_time ,status ,content ,is_del ) 
+		values (#{boat_id},#{boat_name},#{num},#{name},#{author},#{publish},#{unit},
+		#{pre_date},#{pre_local},#{create_id},#{create_time},#{status},#{content},#{is_del})
+	</insert>
+	
+ 	<select id="documentApplyList" resultMap="documentApply">
+		Select id, boat_id, boat_name , num , name , author , publish , 
+		unit , pre_date , pre_local , create_id , create_time ,status, content
+		from hh_document_apply 
+		where is_del = 0
+	</select>
+	
+	<select id="FindDocumentApplyByid" resultMap="documentApply">
+		Select id, boat_id, boat_name , num , name , author , publish , 
+		unit , pre_date , pre_local , content_check ,create_id , create_time ,status,
+		content
+		from hh_document_apply
+		where is_del = 0 and id = #{id} order by status
+	</select>
+	
+	<update id="UpdateDocumentApply" >
+		Update hh_document_apply 
+		set  status = #{0}, content_check = #{2},check_id = #{3} where id = #{1}
+    </update>
+
+</mapper>

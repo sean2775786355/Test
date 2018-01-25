@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.BoatManageDao" >
+  <resultMap id="BaseResultMap" type="com.safewind.pms.po.BoatManage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sailor_id" property="sailorId" jdbcType="VARCHAR" />
+    <result column="boat_id" property="boatId" jdbcType="INTEGER" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sailor_id, boat_id, is_del, create_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from hh_boat_manage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByBoatId" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from hh_boat_manage
+    where boat_id = #{0}
+  </select>
+  <delete id="deleteByPrimaryKey"  >
+    delete from hh_boat_manage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safewind.pms.po.BoatManage" >
+    insert into hh_boat_manage (id, sailor_id, boat_id, 
+      is_del, create_id, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{sailorId,jdbcType=VARCHAR}, #{boatId,jdbcType=INTEGER}, 
+      #{isDel,jdbcType=TINYINT}, #{createId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.safewind.pms.po.BoatManage" >
+    insert into hh_boat_manage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sailorId != null" >
+        sailor_id,
+      </if>
+      <if test="boatId != null" >
+        boat_id,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sailorId != null" >
+        #{sailorId,jdbcType=VARCHAR},
+      </if>
+      <if test="boatId != null" >
+        #{boatId,jdbcType=INTEGER},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.safewind.pms.po.BoatManage" >
+    update hh_boat_manage
+    <set >
+      <if test="sailorId != null" >
+        sailor_id = #{sailorId,jdbcType=VARCHAR},
+      </if>
+      <if test="boatId != null" >
+        boat_id = #{boatId,jdbcType=INTEGER},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.safewind.pms.po.BoatManage" >
+    update hh_boat_manage
+    set sailor_id = #{sailorId,jdbcType=VARCHAR},
+      boat_id = #{boatId,jdbcType=INTEGER},
+      is_del = #{isDel,jdbcType=TINYINT},
+      create_id = #{createId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.ConsumableQuoteDao" >
+  <resultMap id="BaseResultMap" type="com.safewind.pms.po.ConsumableQuote" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+    <result column="consumable_apply_id" property="consumableApplyId" jdbcType="INTEGER" />
+    <result column="boat_id" property="boatId" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.safewind.pms.po.ConsumableQuote" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithSupplierName" type="com.safewind.pms.po.ConsumableQuote" extends="BaseResultMap" >
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, supplier_id, consumable_apply_id, boat_id, price, currency, create_id, create_time,
+    is_del
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hh_consumable_quote
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hh_consumable_quote
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safewind.pms.po.ConsumableQuote" >
+    insert into hh_consumable_quote (id, supplier_id, consumable_apply_id, 
+      boat_id, price, currency, 
+      create_id, create_time, is_del, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER}, #{consumableApplyId,jdbcType=INTEGER}, 
+      #{boatId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{currency,jdbcType=VARCHAR}, 
+      #{createId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.safewind.pms.po.ConsumableQuote" >
+    insert into hh_consumable_quote
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="consumableApplyId != null" >
+        consumable_apply_id,
+      </if>
+      <if test="boatId != null" >
+        boat_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="currency != null" >
+        currency,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="consumableApplyId != null" >
+        #{consumableApplyId,jdbcType=INTEGER},
+      </if>
+      <if test="boatId != null" >
+        #{boatId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.safewind.pms.po.ConsumableQuote" >
+    update hh_consumable_quote
+    <set >
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="consumableApplyId != null" >
+        consumable_apply_id = #{consumableApplyId,jdbcType=INTEGER},
+      </if>
+      <if test="boatId != null" >
+        boat_id = #{boatId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        currency = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.safewind.pms.po.ConsumableQuote" >
+    update hh_consumable_quote
+    set supplier_id = #{supplierId,jdbcType=INTEGER},
+      consumable_apply_id = #{consumableApplyId,jdbcType=INTEGER},
+      boat_id = #{boatId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      currency = #{currency,jdbcType=VARCHAR},
+      create_id = #{createId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.safewind.pms.po.ConsumableQuote" >
+    update hh_consumable_quote
+    set supplier_id = #{supplierId,jdbcType=INTEGER},
+      consumable_apply_id = #{consumableApplyId,jdbcType=INTEGER},
+      boat_id = #{boatId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      currency = #{currency,jdbcType=VARCHAR},
+      create_id = #{createId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByConsumableApplyId" resultMap="ResultMapWithSupplierName" parameterType="java.lang.Integer" >
+    select
+    hh_consumable_quote.id, supplier_id, consumable_apply_id, boat_id, price, currency, hh_consumable_quote.create_id, hh_consumable_quote.create_time, supplier_name,
+    hh_consumable_quote.is_del,hh_consumable_quote.content
+    from hh_consumable_quote,hh_supplier
+    where consumable_apply_id = #{0} AND hh_supplier.id=hh_consumable_quote.supplier_id
+  </select>
+
+  <select id="selectByPrimaryKeyWithName" resultMap="ResultMapWithSupplierName" parameterType="java.lang.Integer" >
+    select
+    hh_consumable_quote.id, supplier_id, consumable_apply_id, boat_id, price, currency, hh_consumable_quote.create_id, hh_consumable_quote.create_time, supplier_name,
+    hh_consumable_quote.is_del,hh_consumable_quote.content
+    from hh_consumable_quote,hh_supplier
+    where hh_consumable_quote.id = #{id,jdbcType=INTEGER} AND hh_supplier.id=hh_consumable_quote.supplier_id
+  </select>
+</mapper>

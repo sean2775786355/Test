@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.ConsumableStorageDao" >
+  <resultMap id="BaseResultMap" type="com.safewind.pms.po.ConsumableStorage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="boat_id" property="boatId" jdbcType="INTEGER" />
+    <result column="consumable_id" property="consumableId" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="DECIMAL" />
+    <result column="update_id" property="updateId" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, boat_id, consumable_id, count, update_id, update_time, is_del
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hh_consumable_storage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getIdByApplyConsumableId" resultType="java.lang.String" parameterType="java.lang.Integer" >
+    select
+    id
+    from hh_consumable_storage
+    where consumable_id = #{consumableId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hh_consumable_storage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safewind.pms.po.ConsumableStorage" >
+    insert into hh_consumable_storage (id, boat_id, consumable_id, 
+      count, update_id, update_time, 
+      is_del)
+    values (#{id,jdbcType=INTEGER}, #{boatId,jdbcType=INTEGER}, #{consumableId,jdbcType=INTEGER}, 
+      #{count,jdbcType=DECIMAL}, #{updateId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDel,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.safewind.pms.po.ConsumableStorage" >
+    insert into hh_consumable_storage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="boatId != null" >
+        boat_id,
+      </if>
+      <if test="consumableId != null" >
+        consumable_id,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="updateId != null" >
+        update_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="boatId != null" >
+        #{boatId,jdbcType=INTEGER},
+      </if>
+      <if test="consumableId != null" >
+        #{consumableId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.safewind.pms.po.ConsumableStorage" >
+    update hh_consumable_storage
+    <set >
+      <if test="boatId != null" >
+        boat_id = #{boatId,jdbcType=INTEGER},
+      </if>
+      <if test="consumableId != null" >
+        consumable_id = #{consumableId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="updateId != null" >
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.safewind.pms.po.ConsumableStorage" >
+    update hh_consumable_storage
+    set boat_id = #{boatId,jdbcType=INTEGER},
+      consumable_id = #{consumableId,jdbcType=INTEGER},
+      count = #{count,jdbcType=DECIMAL},
+      update_id = #{updateId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="addCount" parameterType="com.safewind.pms.po.ConsumableStorage" >
+        update hh_consumable_storage
+        set count = count+#{count,jdbcType=DECIMAL},
+        update_id = #{updateId,jdbcType=VARCHAR},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

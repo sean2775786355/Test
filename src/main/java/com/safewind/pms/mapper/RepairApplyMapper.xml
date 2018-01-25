@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.RepairApplyDao" >
+  <resultMap id="BaseResultMap" type="com.safewind.pms.po.RepairApply" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="boat_id" property="boatId" jdbcType="INTEGER" />
+    <result column="repair_factory_id" property="repairFactoryId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="repair_date" property="repairDate" jdbcType="TIMESTAMP" />
+    <result column="date_length" property="dateLength" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="check_1_id" property="check1Id" jdbcType="VARCHAR" />
+    <result column="check_1_time" property="check1Time" jdbcType="TIMESTAMP" />
+    <result column="check_2_id" property="check2Id" jdbcType="VARCHAR" />
+    <result column="check_2_time" property="check2Time" jdbcType="TIMESTAMP" />
+    <result column="check_3_id" property="check3Id" jdbcType="VARCHAR" />
+    <result column="check_3_time" property="check3Time" jdbcType="TIMESTAMP" />
+    <result column="act_id" property="actId" jdbcType="VARCHAR" />
+    <result column="act_time" property="actTime" jdbcType="TIMESTAMP" />
+    <result column="act_url" property="actUrl" jdbcType="VARCHAR" />
+    <result column="finish_id" property="finishId" jdbcType="VARCHAR" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="finish_url" property="finishUrl" jdbcType="VARCHAR" />
+    <result column="finish_content" property="finishContent" jdbcType="VARCHAR" />
+    <result column="budget_usage_count" property="budgetUsageCount" jdbcType="DECIMAL" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.safewind.pms.po.RepairApplyWithBLOBs" extends="BaseResultMap" >
+    <result column="pre_content" property="preContent" jdbcType="LONGVARCHAR" />
+    <result column="check_1_content" property="check1Content" jdbcType="LONGVARCHAR" />
+    <result column="check_2_content" property="check2Content" jdbcType="LONGVARCHAR" />
+    <result column="check_3_content" property="check3Content" jdbcType="LONGVARCHAR" />
+    <result column="act_repair_content" property="actRepairContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, boat_id, repair_factory_id, type, repair_date, date_length, status, check_1_id, 
+    check_1_time, check_2_id, check_2_time, check_3_id, check_3_time, act_id, act_time, 
+    act_url, finish_id, finish_time, finish_url, finish_content, budget_usage_count, 
+    create_id, create_time, is_del
+  </sql>
+  <sql id="Blob_Column_List" >
+    pre_content, check_1_content, check_2_content, check_3_content, act_repair_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hh_repair_apply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hh_repair_apply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safewind.pms.po.RepairApplyWithBLOBs" >
+    insert into hh_repair_apply (id, boat_id, repair_factory_id, 
+      type, repair_date, date_length, 
+      status, check_1_id, check_1_time, 
+      check_2_id, check_2_time, check_3_id, 
+      check_3_time, act_id, act_time, 
+      act_url, finish_id, finish_time, 
+      finish_url, finish_content, budget_usage_count, 
+      create_id, create_time, is_del, 
+      pre_content, check_1_content, check_2_content, 
+      check_3_content, act_repair_content
+      )
+    values (#{id,jdbcType=INTEGER}, #{boatId,jdbcType=INTEGER}, #{repairFactoryId,jdbcType=INTEGER}, 
+      #{type,jdbcType=TINYINT}, #{repairDate,jdbcType=TIMESTAMP}, #{dateLength,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{check1Id,jdbcType=INTEGER}, #{check1Time,jdbcType=TIMESTAMP}, 
+      #{check2Id,jdbcType=INTEGER}, #{check2Time,jdbcType=TIMESTAMP}, #{check3Id,jdbcType=INTEGER}, 
+      #{check3Time,jdbcType=TIMESTAMP}, #{actId,jdbcType=INTEGER}, #{actTime,jdbcType=TIMESTAMP}, 
+      #{actUrl,jdbcType=VARCHAR}, #{finishId,jdbcType=INTEGER}, #{finishTime,jdbcType=TIMESTAMP}, 
+      #{finishUrl,jdbcType=VARCHAR}, #{finishContent,jdbcType=VARCHAR}, #{budgetUsageCount,jdbcType=DECIMAL}, 
+      #{createId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT}, 
+      #{preContent,jdbcType=LONGVARCHAR}, #{check1Content,jdbcType=LONGVARCHAR}, #{check2Content,jdbcType=LONGVARCHAR}, 
+      #{check3Content,jdbcType=LONGVARCHAR}, #{actRepairContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.safewind.pms.po.RepairApplyWithBLOBs" >
+    insert into hh_repair_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="boatId != null" >
+        boat_id,
+      </if>
+      <if test="repairFactoryId != null" >
+        repair_factory_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="repairDate != null" >
+        repair_date,
+      </if>
+      <if test="dateLength != null" >
+        date_length,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="check1Id != null" >
+        check_1_id,
+      </if>
+      <if test="check1Time != null" >
+        check_1_time,
+      </if>
+      <if test="check2Id != null" >
+        check_2_id,
+      </if>
+      <if test="check2Time != null" >
+        check_2_time,
+      </if>
+      <if test="check3Id != null" >
+        check_3_id,
+      </if>
+      <if test="check3Time != null" >
+        check_3_time,
+      </if>
+      <if test="actId != null" >
+        act_id,
+      </if>
+      <if test="actTime != null" >
+        act_time,
+      </if>
+      <if test="actUrl != null" >
+        act_url,
+      </if>
+      <if test="finishId != null" >
+        finish_id,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+      <if test="finishUrl != null" >
+        finish_url,
+      </if>
+      <if test="finishContent != null" >
+        finish_content,
+      </if>
+      <if test="budgetUsageCount != null" >
+        budget_usage_count,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="preContent != null" >
+        pre_content,
+      </if>
+      <if test="check1Content != null" >
+        check_1_content,
+      </if>
+      <if test="check2Content != null" >
+        check_2_content,
+      </if>
+      <if test="check3Content != null" >
+        check_3_content,
+      </if>
+      <if test="actRepairContent != null" >
+        act_repair_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="boatId != null" >
+        #{boatId,jdbcType=INTEGER},
+      </if>
+      <if test="repairFactoryId != null" >
+        #{repairFactoryId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="repairDate != null" >
+        #{repairDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateLength != null" >
+        #{dateLength,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="check1Id != null" >
+        #{check1Id,jdbcType=INTEGER},
+      </if>
+      <if test="check1Time != null" >
+        #{check1Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="check2Id != null" >
+        #{check2Id,jdbcType=INTEGER},
+      </if>
+      <if test="check2Time != null" >
+        #{check2Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="check3Id != null" >
+        #{check3Id,jdbcType=INTEGER},
+      </if>
+      <if test="check3Time != null" >
+        #{check3Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actId != null" >
+        #{actId,jdbcType=INTEGER},
+      </if>
+      <if test="actTime != null" >
+        #{actTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actUrl != null" >
+        #{actUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="finishId != null" >
+        #{finishId,jdbcType=INTEGER},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishUrl != null" >
+        #{finishUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="finishContent != null" >
+        #{finishContent,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetUsageCount != null" >
+        #{budgetUsageCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="preContent != null" >
+        #{preContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="check1Content != null" >
+        #{check1Content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="check2Content != null" >
+        #{check2Content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="check3Content != null" >
+        #{check3Content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="actRepairContent != null" >
+        #{actRepairContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.safewind.pms.po.RepairApplyWithBLOBs" >
+    update hh_repair_apply
+    <set >
+      <if test="boatId != null" >
+        boat_id = #{boatId,jdbcType=INTEGER},
+      </if>
+      <if test="repairFactoryId != null" >
+        repair_factory_id = #{repairFactoryId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="repairDate != null" >
+        repair_date = #{repairDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateLength != null" >
+        date_length = #{dateLength,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="check1Id != null" >
+        check_1_id = #{check1Id,jdbcType=INTEGER},
+      </if>
+      <if test="check1Time != null" >
+        check_1_time = #{check1Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="check2Id != null" >
+        check_2_id = #{check2Id,jdbcType=INTEGER},
+      </if>
+      <if test="check2Time != null" >
+        check_2_time = #{check2Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="check3Id != null" >
+        check_3_id = #{check3Id,jdbcType=INTEGER},
+      </if>
+      <if test="check3Time != null" >
+        check_3_time = #{check3Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actId != null" >
+        act_id = #{actId,jdbcType=INTEGER},
+      </if>
+      <if test="actTime != null" >
+        act_time = #{actTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actUrl != null" >
+        act_url = #{actUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="finishId != null" >
+        finish_id = #{finishId,jdbcType=INTEGER},
+      </if>
+      <if test="finishTime != null" >
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishUrl != null" >
+        finish_url = #{finishUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="finishContent != null" >
+        finish_content = #{finishContent,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetUsageCount != null" >
+        budget_usage_count = #{budgetUsageCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="preContent != null" >
+        pre_content = #{preContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="check1Content != null" >
+        check_1_content = #{check1Content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="check2Content != null" >
+        check_2_content = #{check2Content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="check3Content != null" >
+        check_3_content = #{check3Content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="actRepairContent != null" >
+        act_repair_content = #{actRepairContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.safewind.pms.po.RepairApplyWithBLOBs" >
+    update hh_repair_apply
+    set boat_id = #{boatId,jdbcType=INTEGER},
+      repair_factory_id = #{repairFactoryId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      repair_date = #{repairDate,jdbcType=TIMESTAMP},
+      date_length = #{dateLength,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      check_1_id = #{check1Id,jdbcType=INTEGER},
+      check_1_time = #{check1Time,jdbcType=TIMESTAMP},
+      check_2_id = #{check2Id,jdbcType=INTEGER},
+      check_2_time = #{check2Time,jdbcType=TIMESTAMP},
+      check_3_id = #{check3Id,jdbcType=INTEGER},
+      check_3_time = #{check3Time,jdbcType=TIMESTAMP},
+      act_id = #{actId,jdbcType=INTEGER},
+      act_time = #{actTime,jdbcType=TIMESTAMP},
+      act_url = #{actUrl,jdbcType=VARCHAR},
+      finish_id = #{finishId,jdbcType=INTEGER},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      finish_url = #{finishUrl,jdbcType=VARCHAR},
+      finish_content = #{finishContent,jdbcType=VARCHAR},
+      budget_usage_count = #{budgetUsageCount,jdbcType=DECIMAL},
+      create_id = #{createId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT},
+      pre_content = #{preContent,jdbcType=LONGVARCHAR},
+      check_1_content = #{check1Content,jdbcType=LONGVARCHAR},
+      check_2_content = #{check2Content,jdbcType=LONGVARCHAR},
+      check_3_content = #{check3Content,jdbcType=LONGVARCHAR},
+      act_repair_content = #{actRepairContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.safewind.pms.po.RepairApply" >
+    update hh_repair_apply
+    set boat_id = #{boatId,jdbcType=INTEGER},
+      repair_factory_id = #{repairFactoryId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      repair_date = #{repairDate,jdbcType=TIMESTAMP},
+      date_length = #{dateLength,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      check_1_id = #{check1Id,jdbcType=INTEGER},
+      check_1_time = #{check1Time,jdbcType=TIMESTAMP},
+      check_2_id = #{check2Id,jdbcType=INTEGER},
+      check_2_time = #{check2Time,jdbcType=TIMESTAMP},
+      check_3_id = #{check3Id,jdbcType=INTEGER},
+      check_3_time = #{check3Time,jdbcType=TIMESTAMP},
+      act_id = #{actId,jdbcType=INTEGER},
+      act_time = #{actTime,jdbcType=TIMESTAMP},
+      act_url = #{actUrl,jdbcType=VARCHAR},
+      finish_id = #{finishId,jdbcType=INTEGER},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      finish_url = #{finishUrl,jdbcType=VARCHAR},
+      finish_content = #{finishContent,jdbcType=VARCHAR},
+      budget_usage_count = #{budgetUsageCount,jdbcType=DECIMAL},
+      create_id = #{createId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getAllRepairApplys" resultMap="ResultMapWithBLOBs"  >
+    Select id , boat_id , type , repair_date , date_length , status
+    from hh_repair_apply
+    where is_del = 0
+    order by status
+  </select>
+  
+  <insert id="repairApplyPost" parameterType="com.safewind.pms.po.RepairApplyAll"
+  useGeneratedKeys="true" keyProperty="id">
+  	Insert into hh_repair_apply
+  	(boat_id,repair_factory_id,type,repair_date,
+  	date_length,pre_content,create_id,create_time)
+  	values
+  	(#{boatId},#{repairFactoryId},#{type},#{repairDate},
+  	#{dateLength},#{preContent},#{createId},#{createTime})
+  </insert>
+</mapper>

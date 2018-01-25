@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.RepairFactoryDao">
+	<resultMap type="com.safewind.pms.po.RepairFactory" id="repairFactory">
+		<result column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="linkman" property="linkman" />
+		<result column="phone" property="phone" />
+		<result column="mobile_phone" property="mobilePhone" />
+		<result column="email" property="email" />
+		<result column="location" property="location" />
+		<result column="content" property="content" />
+		<result column="bad_content" property="badContent" />
+		<result column="create_id" property="createId" />
+		<result column="create_time" property="createTime" />
+		<result column="is_del" property="is_del" />
+	</resultMap>
+	
+	<insert id="RepairFactoryCreate" parameterType="com.safewind.pms.po.RepairFactory"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into hh_repair_factory 
+		(name,linkman,fax,phone,mobile_phone,email,location,
+		content,bad_content,create_id,create_time,is_del)
+		values
+		(#{name},#{linkman},#{fax},#{phone},#{mobilePhone},#{email},
+		#{location},#{content},#{badContent},#{createId},#{createTime},0)
+	</insert>
+	
+	<select id="RepairFactoryList" resultMap="repairFactory">
+		select	id,name,linkman,fax,phone,mobile_phone,email,location,
+				content,bad_content,create_id,create_time
+		from	hh_repair_factory
+		where	is_del=0
+	</select>
+	
+	<select id="RepairFactoryFind" resultMap="repairFactory">
+		select	id,name,linkman,fax,phone,mobile_phone,email,location,
+				content,bad_content,create_id,create_time
+		from	hh_repair_factory
+		where	id=#{id} and is_del=0
+	</select>
+	
+	<update id="RepairFactoryDelete">
+		update	hh_repair_factory
+		set		is_del = 1
+		where	id=#{id}
+	</update>
+	
+	<update id="RepairFactoryUpdate" parameterType="com.safewind.pms.po.RepairFactory">
+		update	hh_repair_factory
+		set		name=#{name},linkman=#{linkman},fax=#{fax},phone=#{phone},
+				mobile_phone=#{mobilePhone},email=#{email},location=#{location},
+				content=#{content},bad_content=#{badContent}
+		where	id=#{id} and is_del=0
+	</update>
+	
+	<select id="findAllRepairFactoryName" resultType="java.lang.String">
+		select	name
+		from	hh_repair_factory
+		where	is_del=0
+	</select>
+	
+	<select id="RepairFactoryFindByName" resultMap="repairFactory">
+		select	id,name,linkman,fax,phone,mobile_phone,email,location,
+				content,bad_content,create_id,create_time
+		from	hh_repair_factory
+		where	name=#{name} and is_del=0
+	</select>
+</mapper>

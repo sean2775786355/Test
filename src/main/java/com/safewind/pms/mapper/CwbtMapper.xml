@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.CwbtDao">
+    <resultMap id="SubCwbt" type="com.safewind.pms.po.SubCwbt">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="e_name" property="eName"/>
+        <result column="name" property="name"/>
+        <result column="content" property="content"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="is_band" property="isBand"/>
+    </resultMap>
+    <resultMap id="Cwbt" type="com.safewind.pms.po.Cwbt">
+        <id column="id" property="id"/>
+        <result column="code_1" property="code1"/>
+        <result column="code_2" property="code2"/>
+        <result column="code_3" property="code3"/>
+        <result column="code_4" property="code4"/>
+        <result column="name" property="name"/>
+        <result column="content" property="content"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="is_band" property="isBand"/>
+        <result column="default_duty" property="defaultDuty"/>
+    </resultMap>
+
+
+
+    <select id="getCwbtByCode" resultMap="Cwbt">
+        select
+        id , code_1 ,code_2 , code_3 , code_4 , name , content , default_duty
+        from
+        hh_cwbt
+        where is_band = 1
+        AND code_1 = #{0}
+        AND code_2 = #{1}
+        AND code_3 = #{2}
+    </select>
+    <select id="getAllCwbt" resultMap="Cwbt">
+        select
+        id , code_1 ,code_2 , code_3 , code_4 , name , content
+        from
+        hh_cwbt
+        where
+        is_band = 1
+    </select>
+    <update id="updateCwbtById" >
+        update
+        hh_cwbt
+        set
+        code_1 = #{1} ,
+        code_2 = #{2} ,
+        code_3 = #{3} ,
+        name = #{4},
+        content = #{5} ,
+        create_id = #{6} ,
+        create_time = #{7},
+        is_band = #{8},
+        default_duty = #{9}
+        where
+        id = #{0}
+    </update>
+    <select id="getCwbtById" resultMap="Cwbt">
+        select
+        id , code_1 , code_2 , code_3 , name , content , default_duty
+        from
+        hh_cwbt
+        where
+        id = #{0}
+    </select>
+    <insert id="InsertCwbtCode" >
+        insert into
+        hh_cwbt
+        (code_1 , code_2 , code_3 , name , content , default_duty)
+        VALUES
+        (#{0},#{1},#{2},#{3},#{4},#{5})
+    </insert>
+
+
+
+    <!-- ——————————————————————————————————————————————子代码———————————————————————————————————————————— -->
+
+
+
+
+    <select id="getAllSubCwbt" resultMap="SubCwbt">
+        select
+        id , code , name , e_name , content
+        from
+        ${table}
+        where
+        is_band = 1
+    </select>
+    <update id="updateSubCwbtById" >
+        update
+        ${table}
+        set
+        code = #{2} ,
+        name = #{3} ,
+        e_name = #{4} ,
+        content = #{5} ,
+        is_band = #{6} ,
+        create_id = #{7} ,
+        create_time = #{8}
+        where
+        id = #{1}
+    </update>
+    <select id="getSubCwbtById" resultMap="SubCwbt">
+        select
+        id , code , name , e_name , content
+        from
+        ${table}
+        where
+        id = #{1}
+    </select>
+    <insert id="InsertSubCwbtCode" >
+        insert into
+        ${table}
+        (code , name , e_name , content )
+        VALUES
+        (#{1},#{2},#{3},#{4})
+    </insert>
+
+
+
+
+</mapper>

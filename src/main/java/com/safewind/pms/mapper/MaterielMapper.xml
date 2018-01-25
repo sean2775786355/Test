@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.MaterielDao">
+	<resultMap type="com.safewind.pms.po.Materiel" id="materiel">
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="code" property="code"/>
+		<result column="productor_name" property="productor_name"/>
+		<result column="type" property="type"/>
+		<result column="standard_code" property="standard_code"/>
+		<result column="standard" property="standard"/>
+		<result column="level" property="level"/>
+		<result column="duty" property="duty"/>
+		<result column="storage" property="storage"/>
+		<result column="unit" property="unit"/>
+		<result column="cost" property="cost"/>
+		<result column="content" property="content"/>
+		<result column="url" property="url"/>
+		<result column="is_del" property="is_del"/>
+		<result column="create_id" property="create_id"/>
+		<result column="create_time" property="create_time"/>
+		<result column="currency" property="currency"/>
+	</resultMap>
+	
+	<insert id="materielCreate" parameterType="com.safewind.pms.po.Materiel"
+		useGeneratedKeys="true" keyProperty="id">		
+		insert into hh_materiel 
+		( name , code , productor_name , type , standard_code , storage , level , 
+		duty , standard , unit , cost ,currency , content , url ,create_id ,create_time ) 
+		values (#{name},#{code},#{productor_name},#{type},#{standard_code},#{storage},#{level},
+		#{duty},#{standard},#{unit},#{cost},#{currency},#{content},#{url},#{create_id},#{create_time})
+	</insert>
+	
+	
+	<select id="materielList" resultMap="materiel">
+		Select id, name , code , productor_name , type , standard_code , storage , 
+		level , duty , standard , unit , cost , url , content ,currency 
+		from hh_materiel 
+		where is_del = 0
+	</select>
+	
+	<select id="materielFindDetail" resultMap="materiel">
+		Select id, name , code , productor_name , type , standard_code , storage , 
+		level , duty , standard , unit , cost , url , content ,currency
+		from hh_materiel where id = #{id}
+	</select>
+	
+	<update id="materielDelete" >
+		Update hh_materiel set is_del = 1 where id = #{id}
+    </update>
+    
+    <update id="materielSubmit" >
+		Update hh_materiel 
+		set name = #{name} , code = #{code} , productor_name = #{productor_name} , type = #{type} , 
+		standard_code = #{standard_code} , storage = #{storage} , level = #{level} , duty = #{duty} ,
+		standard = #{standard} , unit = #{unit} , cost = #{cost} , currency = #{currency} , 
+		content = #{content} , url = #{url}, create_id = #{create_id}, create_time = #{create_time} where id = #{id}
+    </update>
+    
+    <resultMap type="com.safewind.pms.po.MaterielApply" id="materielApply">
+		<result column="id" property="id"/>
+		<result column="boat_id" property="boat_id"/>
+		<result column="materiel_id" property="materiel_id"/>
+		<result column="count" property="count"/>
+		<result column="eta" property="eta"/>
+		<result column="port" property="port"/>
+		<result column="status" property="status"/>
+		<result column="precheck_content" property="precheck_content"/>
+		<result column="check_id" property="check_id"/>
+		<result column="create_id" property="create_id"/>
+		<result column="create_time" property="create_time"/>
+		<result column="content" property="content"/>
+		<result column="is_del" property="is_del"/>
+	</resultMap>
+      	
+	<insert id="materielApplyCreate" parameterType="com.safewind.pms.po.MaterielApply"
+		useGeneratedKeys="true" keyProperty="id">	
+		Insert into hh_materiel_apply ( boat_id , materiel_id , count , eta , port , 
+		create_id , create_time , content ) 
+		values ( #{boat_id},#{materiel_id},#{count},#{eta},#{port},#{create_id},#{create_time},#{content})	
+	</insert>
+    
+    <select id="materielApplyList" resultType="com.safewind.pms.po.MaterielApply">
+		Select id , materiel_id , boat_id , eta , count , status ,create_id
+		from hh_materiel_apply where is_del = 0 order by status
+	</select>
+	
+	<select id="materielApplyFindName" resultType="java.lang.String">
+		select name from hh_materiel where id = #{id} and is_del = 0
+	</select>
+	
+	<select id="materielApplyFindDetail" resultType="com.safewind.pms.po.MaterielApply">
+		Select id ,boat_id , materiel_id , count , eta , port , content , create_id
+		from hh_materiel_apply where id = #{id} and is_del = 0
+	</select>
+
+	<select id="getMaterielApplyById" resultType="com.safewind.pms.po.MaterielApply">
+		Select *
+		from hh_materiel_apply where id = #{id}
+	</select>
+
+	
+	<update id="materielApplyUpdate" >
+		Update hh_materiel_apply 
+		set  status = #{0} , precheck_content = #{2} , check_id = #{3}  where materiel_id = #{1}
+    </update>
+
+	<update id="materielApplyStatusUpdate" >
+		Update hh_materiel_apply
+		set  status = #{0}
+		where id = #{1}
+	</update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

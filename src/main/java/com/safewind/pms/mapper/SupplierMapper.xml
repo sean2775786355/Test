@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.SupplierDao">
+	<resultMap type="com.safewind.pms.po.Supplier" id="supplier">
+		<result column="id" property="id" />
+		<result column="supplier_name" property="supplierName" />
+		<result column="principal" property="principal" />
+		<result column="email" property="email" />
+		<result column="company_phone" property="companyPhone" />
+		<result column="fax" property="fax" />
+		<result column="company_type" property="companyType" />
+		<result column="linkman_name" property="linkmanName" />
+		<result column="linkman_moblie_phone" property="linkmanMobliePhone" />
+		<result column="content" property="content" />
+		<result column="bad_content" property="badContent" />
+		<result column="create_id" property="createId" />
+		<result column="create_time" property="createTime" />
+		<result column="is_del" property="is_del" />
+	</resultMap>
+	
+	<select id="supplierList" resultMap="supplier">
+		select 	id,supplier_name,company_type,linkman_name,company_phone,email 
+		from 	hh_supplier
+		where	is_del = 0
+	</select>
+	
+	<insert id="SupplierPost" parameterType="com.safewind.pms.po.Supplier"
+	useGeneratedKeys="true" keyProperty="id">
+		insert into hh_supplier
+		(supplier_name,principal,email,company_phone,fax,company_type,
+		linkman_name,linkman_moblie_phone,content,create_id,create_time) 
+		values 
+		(#{supplierName},#{principal},#{email},#{companyPhone},#{fax},#{companyType},
+		#{linkmanName},#{linkmanMobliePhone},#{content},#{createId},#{createTime})
+	</insert>
+	
+	<select id="supplierFindById" resultMap="supplier">
+		select	id,supplier_name,principal,email,company_phone,fax,company_type,
+				linkman_name,linkman_moblie_phone,content,bad_content
+		from	hh_supplier
+		where	id=#{id} and is_del = 0
+	</select>
+	
+	<update id="updateSupplier" parameterType="com.safewind.pms.po.Supplier">
+		update hh_supplier set
+		supplier_name = #{supplierName},
+		principal = #{principal},
+		email = #{email},
+		company_phone = #{companyPhone},
+		fax = #{fax},
+		company_type = #{companyType},
+		linkman_name = #{linkmanName},
+		linkman_moblie_phone = #{linkmanMobliePhone},
+		content = #{content},
+		bad_content = #{badContent}
+		
+		where id = #{id} and is_del=0
+	</update>
+	
+	<update id="deleteSupplier">
+		update hh_supplier
+		set is_del = 1
+		where id=#{id}
+	</update>
+
+	<select id="getAllEmail" resultType="java.lang.String">
+		Select email
+		from hh_supplier
+		where is_del = 0
+	</select>
+</mapper>

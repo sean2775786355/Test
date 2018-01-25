@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.BoatDao">
+
+	<resultMap id="boatInfoMap" type="com.safewind.pms.po.Boat">
+		<result column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="e_name" property="eName" />
+		<result column="IMO" property="imo" />
+		<result column="create_time" property="createTime" />
+		<result column="create_id" property="createId" />
+		<result column="is_del" property="isDel" />
+		<result column="status" property="status" />
+		<result column="type" property="type" />
+		<result column="tonnage" property="tonnage" />
+		<result column="horsepower" property="horsepower" />
+		<result column="model" property="model" />
+		<result column="call_name" property="callName" />
+		<result column="country" property="country" />
+		<result column="lane" property="lane" />
+
+	</resultMap>
+   
+    <insert id="insertBoat" >
+        insert into hh_boat
+        (name,
+        e_name,
+        IMO,
+        create_time,
+        create_id,
+        is_del,
+        status,
+        type,
+        tonnage,
+        horsepower,
+        model,
+        call_name,
+        country,
+        lane)
+        values
+        (#{name},
+         #{eName},
+         #{imo},
+         #{createTime,jdbcType=VARCHAR},
+         #{createId},
+         #{isDel},
+         #{status},
+         #{type},
+         #{tonnage},
+         #{horsepower},
+         #{model,jdbcType=VARCHAR},
+         #{callName,jdbcType=VARCHAR},
+         #{country,jdbcType=VARCHAR},
+         #{lane,jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    
+    <select id="getBoatInfo" resultMap="boatInfoMap">
+       select *
+       from hh_boat
+       where id = #{id}
+    </select>
+    
+    <!-- 根据船舶名称获取详细信息 -->
+    <select id="BoatInfo" resultMap="boatInfoMap">
+       select *
+       from hh_boat
+       where name = #{BoatName}
+    </select>
+    
+    <select id="BoatNameInfo" resultMap="boatInfoMap">
+       select id,name from hh_boat where is_del=0
+    </select>
+    
+ 
+     <select id="getBoatList" resultMap="boatInfoMap">
+       select *
+       from hh_boat where is_del = 0
+    </select>
+    <select id="getBoatInfoByBoatName" resultMap="boatInfoMap">
+       select *
+       from hh_boat where name=#{name}
+    </select>
+    
+    <update id="updateBoatInfo">
+	update hh_boat 
+	set 
+	 name = #{name} , IMO = #{imo} , call_name = #{callName} ,
+	e_name = #{eName} , status = #{status} , type = #{type} , tonnage = #{tonnage} ,
+	horsepower = #{horsepower} , model = #{model} , country = #{country}  
+	where id
+	= #{id}
+    
+    
+    
+    </update>
+
+    <update id="deleteBoatByBoatId">
+       update hh_boat set  is_del = 1 where id = #{boatId}
+
+    </update>
+    
+    <select id="boatNameFindById" resultType="java.lang.String">
+    	select name from hh_boat where id = #{id} and is_del = 0
+    </select>
+ </mapper>

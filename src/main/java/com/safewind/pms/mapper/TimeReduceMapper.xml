@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.TimeReduceDao">
+
+	<resultMap id="time" type="com.safewind.pms.po.Time">
+		<result column="id" property="id"/>
+		<result column="equipment_id" property="equipment_id"/>
+		<result column="boat_id" property="boat_id" />
+		<result column="service_level" property="service_level"/>
+		<result column="day" property="day"/>
+		<result column="hour" property="hour"/>
+		<result column="is_del" property="is_del"/>
+		<result column="count_type" property="count_type"/>
+	</resultMap>
+	
+	<select id = "timeList" resultMap = "time">
+		select id,equipment_id,boat_id,service_level,day,
+		 hour,is_del,count_type  from  hh_date_count  where is_del = 0 order by equipment_id , service_level
+	</select>
+		
+	<update id="timeReduceHour" >
+        update
+        hh_date_count
+        set
+        hour = #{1}
+        where id = #{0}
+    </update>
+    
+    		
+	<update id="timeReduceDay" >
+        update
+        hh_date_count
+        set
+        day = #{1}
+        where id = #{0}
+    </update>
+    
+    
+    
+    <resultMap id="level" type="com.safewind.pms.po.Level">
+		<result column="id" property="id"/>
+		<result column="level" property="level"/>
+		<result column="min_lack_date" property="min_lack_date" />
+		<result column="max_Lack_date" property="max_Lack_date"/>
+		<result column="date" property="date"/>
+		<result column="hour" property="hour"/>
+		<result column="min_lack_hour" property="min_lack_hour"/>
+		<result column="max_lack_hour" property="max_lack_hour"/>
+	</resultMap>
+    
+    <select id = "levelSelect" resultMap = "level" >
+		select id,level,min_lack_date,max_Lack_date,date,
+		 hour,min_lack_hour,max_lack_hour  from  hh_service_level  where level = #{0}
+	</select>
+	
+	
+<!--	<resultMap id="serviceDate" type="com.safewind.pms.po.ServiceDate">
+		<result column="id" property="id"/>
+		<result column="equipment_id" property="equipment_id"/>
+		<result column="boat_id" property="boat_id" />
+		<result column="service_level" property="service_level"/>
+		<result column="type" property="type"/>
+	</resultMap>-->
+	
+	<insert id="dateInsert" >
+		insert into
+		hh_service_date(equipment_id,boat_id,service_level,estimated_time,service_content,type)
+		values
+		(#{equipment_id},#{boat_id},#{service_level},#{estimated_time},#{service_content},#{type})
+	</insert>
+	
+	<update id="dateUpdate" >
+        update
+        hh_service_date
+        set
+        service_level = #{2},
+        estimated_time = #{3},
+        service_content = #{4},
+        type = #{5}
+        where equipment_id = #{0} AND boat_id = #{1}
+    </update>
+
+	<update id="timeUpdateHour" >
+		update
+		hh_date_count
+		set
+		hour = #{3}
+		where equipment_id = #{0} AND boat_id = #{1} AND service_level = #{2}
+	</update>
+
+	<update id="timeUpdateDay" >
+		update
+		hh_date_count
+		set
+		day = #{3}
+		where equipment_id = #{0} AND boat_id = #{1} AND service_level = #{2}
+	</update>
+
+    
+</mapper>

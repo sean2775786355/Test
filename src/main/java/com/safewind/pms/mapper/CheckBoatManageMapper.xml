@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.CheckBoatManageDao">
+	<resultMap type="com.safewind.pms.po.CheckBoatManage" id="checkBoatManage">
+		<result column="id" property="id"/>
+		<result column="subject" property="subject"/>
+		<result column="content_send" property="contentSend"/>
+		<result column="content_reply" property="contentReply"/>
+		<result column="boat_id" property="boatId"/>
+		<result column="send_time" property="sendTime"/>
+		<result column="reply_time" property="replyTime"/>
+		<result column="status" property="status"/>
+		<result column="is_del" property="is_del"/>
+	</resultMap>
+	
+	<resultMap id="ResultMapWithBoatName" type="com.safewind.pms.po.CheckBoatManage" extends="checkBoatManage" >
+    	<result column="name" property="boatName" jdbcType="VARCHAR" />
+  	</resultMap>
+	
+	<insert id="sendMessage" parameterType="com.safewind.pms.po.CheckBoatManage"
+		useGeneratedKeys="true" keyColumn="id">
+		insert into hh_check_boat_manage 
+		(subject,content_send,send_time,boat_id,status)
+		values
+		(#{subject},#{contentSend},#{sendTime},#{boatId},#{status})
+	</insert>
+	
+	<select id="receiveMessage" resultMap="checkBoatManage">
+		select	id,subject,content_send,send_time,status
+		from	hh_check_boat_manage
+		where	boat_id=#{boatId} and is_del=0
+	</select>
+	
+	<update id="replyMessage" parameterType="com.safewind.pms.po.CheckBoatManage">
+		update	hh_check_boat_manage
+		set		content_reply = #{contentReply},
+				reply_time = #{replyTime},
+				status = #{status}
+		where 	id = #{id} and is_del=0
+	</update>
+	
+	<update id="deleteMessage" parameterType="com.safewind.pms.po.CheckBoatManage">
+		update	hh_check_boat_manage
+		set		is_del = 1
+		where	id = #{id}
+	</update>
+	
+	<select id="CheckBoatManageInfo" resultMap="ResultMapWithBoatName">
+		select	hh_check_boat_manage.id,subject,content_send,content_reply,boat_id,send_time,reply_time,hh_check_boat_manage.status,content_reply,hh_boat.name 
+		from	hh_check_boat_manage,hh_boat
+		where	hh_check_boat_manage.id=#{id}
+		and		hh_check_boat_manage.boat_id = hh_boat.id
+		and		hh_check_boat_manage.is_del = 0
+		and		hh_boat.is_del = 0
+	
+	</select>
+	
+	<select id="AllcheckBoatManage" resultMap="ResultMapWithBoatName">
+		select	hh_check_boat_manage.id,subject,content_send,content_reply,boat_id,send_time,reply_time,hh_check_boat_manage.status,content_reply,hh_boat.name 
+		from	hh_check_boat_manage,hh_boat
+		where	hh_check_boat_manage.boat_id = hh_boat.id
+		and		hh_check_boat_manage.is_del = 0
+		and		hh_boat.is_del = 0
+	</select>
+</mapper>

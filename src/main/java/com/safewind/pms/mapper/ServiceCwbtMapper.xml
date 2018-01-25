@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.ServiceCwbtDao" >
+  <resultMap id="BaseResultMap" type="com.safewind.pms.po.ServiceCwbt" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cwbt_code" property="cwbtCode" jdbcType="CHAR" />
+    <result column="cwbt_id" property="cwbtId" jdbcType="INTEGER" />
+    <result column="service_level" property="serviceLevel" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.safewind.pms.po.ServiceCwbt" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cwbt_code, cwbt_id, service_level
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hh_service_cwbt
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCwbtIdAndLevel" resultMap="ResultMapWithBLOBs"  >
+    select *
+    from hh_service_cwbt
+    where cwbt_id = #{1}
+    AND service_level = #{0}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hh_service_cwbt
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safewind.pms.po.ServiceCwbt" >
+    insert into hh_service_cwbt (id, cwbt_code, cwbt_id, 
+      service_level, content)
+    values (#{id,jdbcType=INTEGER}, #{cwbtCode,jdbcType=CHAR}, #{cwbtId,jdbcType=INTEGER}, 
+      #{serviceLevel,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.safewind.pms.po.ServiceCwbt" >
+    insert into hh_service_cwbt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cwbtCode != null" >
+        cwbt_code,
+      </if>
+      <if test="cwbtId != null" >
+        cwbt_id,
+      </if>
+      <if test="serviceLevel != null" >
+        service_level,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cwbtCode != null" >
+        #{cwbtCode,jdbcType=CHAR},
+      </if>
+      <if test="cwbtId != null" >
+        #{cwbtId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceLevel != null" >
+        #{serviceLevel,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.safewind.pms.po.ServiceCwbt" >
+    update hh_service_cwbt
+    <set >
+      <if test="cwbtCode != null" >
+        cwbt_code = #{cwbtCode,jdbcType=CHAR},
+      </if>
+      <if test="cwbtId != null" >
+        cwbt_id = #{cwbtId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceLevel != null" >
+        service_level = #{serviceLevel,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.safewind.pms.po.ServiceCwbt" >
+    update hh_service_cwbt
+    set cwbt_code = #{cwbtCode,jdbcType=CHAR},
+      cwbt_id = #{cwbtId,jdbcType=INTEGER},
+      service_level = #{serviceLevel,jdbcType=CHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.safewind.pms.po.ServiceCwbt" >
+  update hh_service_cwbt
+  set cwbt_code = #{cwbtCode,jdbcType=CHAR},
+  cwbt_id = #{cwbtId,jdbcType=INTEGER},
+  service_level = #{serviceLevel,jdbcType=CHAR}
+  where id = #{id,jdbcType=INTEGER}
+</update>
+
+  <update id="updateByCwbtIdAndLevel" >
+    update hh_service_cwbt
+    set content = #{2}
+    where cwbt_id = #{1}
+    AND service_level = #{0}
+  </update>
+
+  <resultMap id="Content" type="com.safewind.pms.po.ServiceCwbt" >
+    <result column="cwbt_code" property="cwbtCode" jdbcType="CHAR" />
+    <result column="cwbt_id" property="cwbtId" jdbcType="INTEGER" />
+    <result column="service_level" property="serviceLevel" jdbcType="CHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <select id="getContent" resultMap="Content">
+    select
+    content
+    from
+    hh_service_cwbt
+    where
+    cwbt_code = #{0} AND  service_level = #{1}
+  </select>
+
+
+</mapper>

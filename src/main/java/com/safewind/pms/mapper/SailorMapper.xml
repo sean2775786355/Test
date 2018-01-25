@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.SailorDao">
+
+	<resultMap id="sailor" type="com.safewind.pms.po.Sailor">
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="sex" property="sex" />
+		<result column="native_place" property="native_place"/>
+		<result column="weight" property="weight"/>
+		<result column="school" property="school"/>
+		<result column="address" property="address"/>
+		<result column="marriage" property="marriage"/>
+		<result column="sailor_id" property="sailor_id"/>
+		<result column="duty" property="duty"/>
+		<result column="edu" property="edu"/>
+		<result column="blood_type" property="blood_type"/>
+		<result column="major" property="major"/>
+		<result column="phone" property="phone"/>
+		<result column="health" property="health"/>
+		<result column="e_name" property="e_name"/>
+		<result column="birth" property="birth"/>
+		<result column="length" property="length"/>
+		<result column="id_num" property="id_num"/>
+		<result column="gra_time" property="gra_time"/>
+		<result column="email" property="email"/>
+		<result column="relationship_name" property="relationship_name"/>
+		<result column="relationship2_name" property="relationship2_name"/>
+		<result column="relationship" property="relationship"/>
+		<result column="relationship2" property="relationship2"/>
+		<result column="relationship_phone" property="relationship_phone"/>
+		<result column="relationship2_phone" property="relationship2_phone"/>
+		<result column="is_del" property="is_del"/>
+		<result column="content" property="content"/>
+	</resultMap>
+	
+	<insert id="SailorAdd" parameterType="com.safewind.pms.po.Sailor"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		hh_sailor(name,sex,native_place,weight,school,address,marriage,
+		sailor_id,duty,edu,blood_type,major,phone,health,e_name,birth,length,
+		id_num,gra_time,email,relationship_name,relationship2_name,relationship,
+		relationship2,relationship_phone,relationship2_phone,content) 
+		values
+		(#{name},#{sex},#{native_place},#{weight},#{school},#{address},#{marriage},
+		#{sailor_id},#{duty},#{edu},#{blood_type},#{major},#{phone},#{health},#{e_name},
+		#{birth},#{length},#{id_num},#{gra_time},#{email},#{relationship_name},
+		#{relationship2_name},#{relationship},#{relationship2},#{relationship_phone},
+		#{relationship2_phone},#{content})
+	</insert>
+	
+	<select id="SailorList" resultMap="sailor">
+		select id,name,sex,native_place,weight,school,address,marriage,
+		sailor_id,duty,edu,blood_type,major,phone,health,e_name,birth,length,
+		id_num,gra_time,email,relationship_name,relationship2_name,relationship,
+		relationship2,relationship_phone,relationship2_phone,content from hh_sailor where is_del=0
+	</select>
+	
+	<resultMap  id="certificate" type="com.safewind.pms.po.Certificate">
+		<result column="id" property="id" />
+		<result column="sailor_id" property="sailor_id" />
+		<result column="name" property="name" />
+		<result column="num" property="num" />
+		<result column="level" property="level" />
+		<result column="duty" property="duty" />
+		<result column="work_date" property="work_date" />
+		<result column="out_date" property="out_date" />
+		<result column="create_id" property="create_id" />
+		<result column="create_time" property="create_time" />
+	</resultMap>
+	
+	<insert id="CertificateAdd" parameterType="com.safewind.pms.po.Certificate"
+	useGeneratedKeys="true" keyProperty="id">
+	insert into hh_certificate
+	(sailor_id,name,num,level,duty,work_date,out_date,create_id,create_time)
+	values
+	(#{sailor_id},#{name},#{num},#{level},#{duty},#{work_date},#{out_date},#{create_id},#{create_time})
+	</insert>
+	
+	
+	<resultMap id="longevity" type="com.safewind.pms.po.Longevity">
+		<result column="id" property="id" />
+		<result column="sailor_id" property="sailor_id" />
+		<result column="belong" property="belong" />
+		<result column="duty" property="duty" />
+		<result column="onboard_time" property="onboard_time" />
+		<result column="ashore_time" property="ashore_time" />
+		<result column="boat_id" property="boat_id" />
+		<result column="boat_name" property="boat_name" />
+		<result column="boat_IMO" property="boat_IMO" />
+		<result column="boat_type" property="boat_type" />
+		<result column="tonnage" property="tonnage" />
+		<result column="horsepower" property="horsepower" />
+		<result column="model" property="model" />
+		<result column="company" property="company" />
+		<result column="create_id" property="create_id" />
+		<result column="create_time" property="create_time" />
+		<result column="content" property="content" />
+		<result column="lane" property="lane" />
+	</resultMap>
+	
+	<insert id="LongevityAdd" parameterType="com.safewind.pms.po.Longevity"
+	useGeneratedKeys="true" keyProperty="id">	
+	insert into hh_longevity
+	(sailor_id,belong,duty,onboard_time,ashore_time,boat_id,boat_name,boat_IMO,boat_type,
+	tonnage,horsepower,model,company,content,lane)
+	values
+	(#{sailor_id},#{belong},#{du  ty},#{onboard_time},#{ashore_time},#{boat_id},#{boat_name},#{boat_IMO},
+	#{boat_type},#{tonnage},#{horsepower},#{model},#{company},#{content},#{lane})
+	</insert>
+	
+	<select id = "SailorInfoMessage" resultMap = "sailor">
+		select name,sex,native_place,weight,school,address,marriage,
+		sailor_id,duty,edu,blood_type,major,phone,health,e_name,birth,length,
+		id_num,gra_time,email,relationship_name,relationship2_name,relationship,
+		relationship2,relationship_phone,relationship2_phone,content from hh_sailor where sailor_id=#{sailor_id} and is_del = 0
+	</select>
+	<select id = "SailorInfoCertificate" resultMap = "certificate">
+		select id,sailor_id,name,num,level,duty,work_date,out_date,create_id,
+		create_time from hh_certificate where sailor_id=#{sailor_id} and is_del = 0
+	</select>
+		<select id = "SailorInfoLongevity" resultMap = "longevity">
+		select id,sailor_id,belong,duty,onboard_time,ashore_time,boat_id,boat_name,boat_IMO,boat_type,
+		tonnage,horsepower,model,company,create_id,create_time,content,lane from hh_longevity where sailor_id=#{sailor_id} and is_del = 0	
+	</select>
+	
+	<update id="SailorInfoDelete" >
+        update
+        hh_sailor
+        set
+        is_del = 1
+        where sailor_id=#{sailor_id}
+    </update>
+    
+    <update id="SailorInfo_certificateDelete" >
+        update
+        hh_certificate
+        set
+        is_del = 1
+        where id = #{certificate_id}
+    </update>
+    
+     <update id="SailorInfo_longevityDelete" >
+        update
+        hh_longevity
+        set
+        is_del = 1
+        where id = #{longevity_id}
+    </update>
+	
+	<insert id="SailorAttemper" parameterType="com.safewind.pms.po.Attemper"
+	useGeneratedKeys="true" keyProperty="id">
+	insert into hh_attemper
+	(sailor_id,name,status,update_id,update_time,boat_id,duty,content,time)
+	values
+	(#{sailor_id},#{name},#{status},#{update_id},#{update_time},#{boat_id},#{duty},#{content},#{time})
+	</insert>
+	
+	
+	<resultMap id="attemper" type="com.safewind.pms.po.Attemper">
+		<result column="id" property="id" />
+		<result column="sailor_id" property="sailor_id" />
+		<result column="name" property="name" />
+		<result column="status" property="status" />
+		<result column="longevity_id" property="longevity_id" />
+		<result column="update_id" property="update_id" />
+		<result column="update_time" property="update_time" />
+		<result column="time" property="time" />
+		<result column="boat_id" property="boat_id" />
+		<result column="is_del" property="is_del" />
+		<result column="duty" property="duty" />
+		<result column="content" property="content" />
+	</resultMap>
+	
+	
+	<select id="SailorBoat" resultMap="attemper">
+		select id,sailor_id,name,status,longevity_id,update_id,update_time,time,boat_id,duty,content 
+		from hh_attemper where boat_id=#{boat_id} and is_del = 0
+	</select>
+	
+	<update id="DeleteAttemper">
+		update hh_attemper
+		set is_del = 1
+		where id = #{attemper_id}
+	</update>
+	
+	<update id="AsHoreLongrvity">
+		update hh_longevity
+		set ashore_time = #{1}
+		where boat_id = #{0}
+	</update>
+	
+	<select id="AttemperFind" resultMap="attemper">
+		select * from hh_attemper where id = #{attemper_id}
+	</select>
+	
+	<select id="BoatSailor" resultMap="attemper">
+		select * from hh_attemper where sailor_id = #{sailor_id}
+	</select>
+	
+	<update id="SailorRePost">
+		update hh_sailor
+		set
+		name = #{name},
+		sex = #{sex},
+		native_place = #{native_place},
+		weight = #{weight},
+		school = #{school},
+		address = #{address},
+		marriage = #{marriage},
+		duty = #{duty},
+		edu = #{edu},
+		blood_type = #{blood_type},
+		major = #{major},
+		phone = #{phone},
+		health = #{health},
+		e_name = #{e_name},
+		birth = #{birth},
+		length = #{length},
+		id_num = #{id_num},
+		gra_time = #{gra_time},
+		email = #{email},
+		relationship_name = #{relationship_name},
+		relationship2_name = #{relationship2_name},
+		relationship = #{relationship},
+		relationship2 = #{relationship2},
+		relationship_phone = #{relationship_phone},
+		relationship2_phone = #{relationship2_phone},
+		content =  #{content}
+		
+		where sailor_id = #{sailor_id}
+	
+	</update>
+	
+	<select id="SailorFindById" resultType="java.lang.String">
+		select name from hh_sailor where sailor_id = #{sailor_id} and is_del = 0
+	</select>
+
+	<select id="getCaptainIdByBoatId" resultType="java.lang.String">
+		select sailor_id from hh_attemper where duty = 1 and is_del = 0 AND boat_id = #{0}
+	</select>
+</mapper>

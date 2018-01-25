@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.ConsumablePurchaseDao" >
+  <resultMap id="BaseResultMap" type="com.safewind.pms.po.ConsumablePurchase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="consumable_apply_id" property="consumableApplyId" jdbcType="INTEGER" />
+    <result column="consumable_quote_id" property="consumableQuoteId" jdbcType="INTEGER" />
+    <result column="content" property="content"  />
+    <result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="check_content" property="checkContent"  />
+    <result column="income_content" property="incomeContent"  />
+    <result column="income_count" property="incomeCount" jdbcType="DECIMAL" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="current_Count" property="currentCount" jdbcType="TINYINT" />
+    <result column="check_id" property="checkId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, consumable_apply_id, consumable_quote_id, content, total_price, status, check_content, 
+    income_content, income_count, create_id, create_time, is_del,current_Count,check_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hh_consumable_purchase
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hh_consumable_purchase
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <select id="getConsumablePurchaseByApplyId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from hh_consumable_purchase
+    where consumable_apply_id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <insert id="insert" parameterType="com.safewind.pms.po.ConsumablePurchase" >
+    insert into hh_consumable_purchase (id, consumable_apply_id, consumable_quote_id, 
+      content, total_price, status, 
+      check_content, income_content, income_count, 
+      create_id, create_time, is_del,current_Count,check_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{consumableApplyId,jdbcType=INTEGER}, #{consumableQuoteId,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{totalPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
+      #{checkContent,jdbcType=VARCHAR}, #{incomeContent,jdbcType=VARCHAR}, #{incomeCount,jdbcType=DECIMAL}, 
+      #{createId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT},#{currentCount,jdbcType=INTEGER},
+      #{checkId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.safewind.pms.po.ConsumablePurchase" >
+    insert into hh_consumable_purchase
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="consumableApplyId != null" >
+        consumable_apply_id,
+      </if>
+      <if test="consumableQuoteId != null" >
+        consumable_quote_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="checkContent != null" >
+        check_content,
+      </if>
+      <if test="incomeContent != null" >
+        income_content,
+      </if>
+      <if test="incomeCount != null" >
+        income_count,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="currentCount != null" >
+        current_count,
+      </if>
+      <if test="checkId != null" >
+        check_id
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="consumableApplyId != null" >
+        #{consumableApplyId,jdbcType=INTEGER},
+      </if>
+      <if test="consumableQuoteId != null" >
+        #{consumableQuoteId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="checkContent != null" >
+        #{checkContent,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeContent != null" >
+        #{incomeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeCount != null" >
+        #{incomeCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="currentCount != null" >
+        #{currentCount,jdbcType=TINYINT},
+      </if>
+      <if test="checkId != null" >
+        #{checkId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.safewind.pms.po.ConsumablePurchase" >
+    update hh_consumable_purchase
+    <set >
+      <if test="consumableApplyId != null" >
+        consumable_apply_id = #{consumableApplyId,jdbcType=INTEGER},
+      </if>
+      <if test="consumableQuoteId != null" >
+        consumable_quote_id = #{consumableQuoteId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="checkContent != null" >
+        check_content = #{checkContent,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeContent != null" >
+        income_content = #{incomeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeCount != null" >
+        income_count = #{incomeCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="currentCount != null" >
+        current_count = #{currentCount,jdbcType=TINYINT}
+      </if>
+      <if test="checkId != null" >
+        check_id = #{checkId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByApplyIdSelective" parameterType="com.safewind.pms.po.ConsumablePurchase" >
+    update hh_consumable_purchase
+    <set >
+      <if test="consumableApplyId != null" >
+        consumable_apply_id = #{consumableApplyId,jdbcType=INTEGER},
+      </if>
+      <if test="consumableQuoteId != null" >
+        consumable_quote_id = #{consumableQuoteId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="checkContent != null" >
+        check_content = #{checkContent,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeContent != null" >
+        income_content = #{incomeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeCount != null" >
+        income_count = #{incomeCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="currentCount != null" >
+        current_count = #{currentCount,jdbcType=TINYINT}
+      </if>
+      <if test="checkId != null" >
+        check_id = #{checkId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where consumable_apply_id = #{consumableApplyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.safewind.pms.po.ConsumablePurchase" >
+    update hh_consumable_purchase
+    set consumable_apply_id = #{consumableApplyId,jdbcType=INTEGER},
+      consumable_quote_id = #{consumableQuoteId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      check_content = #{checkContent,jdbcType=VARCHAR},
+      income_content = #{incomeContent,jdbcType=VARCHAR},
+      income_count = #{incomeCount,jdbcType=DECIMAL},
+      create_id = #{createId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT} ,
+      current_Count = #{currentCount,jdbcType=INTEGER}
+      check_id = #{checkId,jdbcType=VARCHAR},
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

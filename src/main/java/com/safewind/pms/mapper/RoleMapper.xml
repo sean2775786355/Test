@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.RoleDao">
+
+	<resultMap id="role" type="com.safewind.pms.po.Role">
+		<result column="id" property="id"/>
+		<result column="role" property="role" />
+		<result column="description" property="description"/>
+		<result column="available" property="available"/>
+	</resultMap>
+
+	<insert id="createRole" parameterType="com.safewind.pms.po.Role"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		tb_roles(role,
+		description, available) values(#{role},#{description},#{available})
+	</insert>
+	<update id="updateRole">
+		UPDATE tb_roles
+		SET
+			role = #{role.role,jdbcType=VARCHAR},
+			description = #{role.description,jdbcType=VARCHAR}
+		WHERE id = #{role.id}
+
+	</update>
+	<delete id="deleteUserRole" parameterType="Long">
+		delete from
+		tb_users_roles where role_id=#{roleId}
+	</delete>
+	<delete id="deleteRole" parameterType="Long">
+		delete from tb_roles
+		where role_id=#{roleId}
+	</delete>
+	<insert id="correlationRoles">
+		insert into tb_roles_permissions(role_id,
+		permission_id)
+		values(#{0},#{1}
+		)
+	</insert>
+
+	<delete id="uncorrelationRoles">
+		delete from tb_roles_permissions where
+		role_id=#{0}
+		and permission_id=#{1}
+	</delete>
+	<delete id="uncorrelationAllRolesByRoleId">
+		DELETE FROM tb_roles_permissions
+		WHERE role_id=#{roleId}
+	</delete>
+	<select id="exists" resultType="boolean">
+		select count(1) from
+		tb_roles_permissions where role_id=#{0} and
+		permission_id=#{1}
+	</select>
+
+	<select id="queryRoles" resultMap="role" parameterType="String">
+		SELECT id,role,description,available FROM tb_roles WHERE id = #{roleId} ORDER BY id DESC
+	</select>
+	<select id="queryRolesByUserId" resultMap="role" parameterType="Long">
+		SELECT
+			r.id as id,
+			r.role as role,
+			r.description as description,
+			r.available as available
+		FROM
+			tb_roles r,tb_users_roles ur
+		WHERE
+			ur.user_id =#{id}
+		AND
+			r.id = ur.role_id
+	</select>
+
+	<sql id="roleCol">id,role,description,available </sql>
+
+	<select id="queryAllRoles" resultMap="role">
+	  SELECT DISTINCT
+		 <include refid="roleCol" />
+	  FROM tb_roles ORDER BY id DESC
+	</select>
+	<select id="queryRoleByRoleId" resultMap="role" parameterType="Long">
+	  SELECT DISTINCT
+		<include refid="roleCol" />
+	  FROM tb_roles
+	  WHERE id = #{roleId}
+	</select>
+</mapper>

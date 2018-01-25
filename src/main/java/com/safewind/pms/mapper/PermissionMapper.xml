@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.PermissionDao">
+	<resultMap id="permission" type="com.safewind.pms.po.Permission">
+		<id column="id" property="id"/>
+		<result column="permission" property="permission" />
+		<result column="description" property="description" />
+		<result column="available" property="available" />
+	</resultMap>
+	<insert id="createPermission" parameterType="com.safewind.pms.po.Permission"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		tb_permissions(permission, description, available)
+		values(#{permission},#{description},#{available})
+	</insert>
+	<delete id="deleteRolePermission" parameterType="Long">
+		delete from
+		tb_roles_permissions where permission_id=#{permissionId}
+	</delete>
+	<delete id="deletePermission" parameterType="Long">
+		delete from
+		tb_permissions where id=#{permissionId}
+	</delete>
+	<select id="queryPermsByRoleId" parameterType="Long" resultMap="permission">
+	SELECT
+		p.id as id,
+		p.permission as permission,
+		p.description as description,
+		p.available as available
+	FROM tb_roles_permissions rp ,tb_permissions p
+	where rp.permission_id = p.id AND rp.role_id = #{roleId}
+	</select>
+</mapper>

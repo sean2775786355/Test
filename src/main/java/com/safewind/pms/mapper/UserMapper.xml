@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.UserDao">
+	<resultMap id="user" type="com.safewind.pms.po.User">
+		<result column="id" property="id" />
+		<result column="sailor_id" property="sailorId" />
+		<result column="username" property="username" />
+		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="create_username" property="createUsername"/>
+		<result column="create_time" property="createTime"/>
+		<result column="head_pic" property="headPic"/>
+		<result column="content" property="content"/>
+		<result column="status" property="status"/>
+		<result column="rank" property="rank"/>
+		<result column="is_del" property="isDel"/>
+		<result column="locked" property="locked" />
+	</resultMap>
+	<!--创建一个用户登录信息 -->
+	<insert id="createUser" parameterType="com.safewind.pms.po.User"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		hh_admin_user
+		(
+		sailor_id,username,password, salt,
+		create_username,create_time,head_pic,content,
+		status,rank,is_del,locked
+		)
+		values
+		(
+		#{sailorId},#{username},#{password},#{salt},
+		#{createUsername},#{createTime},#{headPic},#{content},
+		#{status},#{rank},#{isDel},#{locked}
+		)
+	</insert>
+	<!--更新信息 -->
+	<update id="updateUser" parameterType="com.safewind.pms.po.User">
+		update hh_admin_user set
+		username=#{username}, password=#{password},
+		salt=#{salt},
+		locked=#{locked} where id=#{id}
+	</update>
+
+	<delete id="deleteUser" parameterType="Long">
+		delete from hh_admin_user
+		where id=#{userId}
+	</delete>
+
+	<insert id="correlationRoles">
+		insert into tb_users_roles(user_id, role_id)
+		values(#{1},#{2})
+	</insert>
+
+	<delete id="uncorrelationRoles">
+		delete from tb_users_roles where user_id=#{1}
+		and
+		role_id=#{2}
+	</delete>
+	<delete id="uncorrelationAllRoles">
+		DELETE FROM tb_users_roles WHERE  user_id=#{id}
+	</delete>
+	<select id="exists" resultType="boolean">
+		select count(1) from
+		tb_users_roles where user_id=#{1} and
+		role_id=#{2}
+	</select>
+
+	<select id="findOne" parameterType="Long"
+		resultType="com.safewind.pms.po.User">
+		select id, username,
+		password, salt, locked from tb_users
+		where id=#{userId} limit 1
+	</select>
+	<select id="findByUsername" parameterType="String"
+		resultType="com.safewind.pms.po.User">
+		select id,sailor_id, username,
+		password, salt, locked from hh_admin_user
+		where username=#{username} and is_del = 0
+	</select>
+
+	<select id="findRoles" parameterType="String" resultType="String">
+		select
+		r.role from hh_admin_user u, tb_roles r,tb_users_roles ur where
+		u.username=#{username} and
+		u.id=ur.user_id and r.id=ur.role_id
+	</select>
+
+	<select id="findPermissions" parameterType="String" resultType="String">
+		select permission
+		from hh_admin_user u, tb_roles r, tb_permissions p,
+		tb_users_roles ur,
+		tb_roles_permissions rp where
+		u.username=#{username} and
+		u.id=ur.user_id and
+		r.id=ur.role_id and
+		r.id=rp.role_id and
+		p.id=rp.permission_id
+	</select>
+
+	<delete id="delete1">
+		delete from tb_users
+	</delete>
+
+	<delete id="delete2">
+		delete from tb_roles
+	</delete>
+
+	<delete id="delete3">
+		delete from tb_permissions
+	</delete>
+
+	<delete id="delete4">
+		delete from tb_users_roles
+	</delete>
+
+	<delete id="delete5">
+		delete from tb_roles_permissions
+	</delete>
+
+	<select id="queryUsers" resultMap="user">
+		select id, username,
+		password, salt, locked from hh_admin_user WHERE is_del = 0
+	</select>
+
+</mapper>

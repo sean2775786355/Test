@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.EquipmentDao">
+    <resultMap id="EquipmentResultMap" type="com.safewind.pms.po.Equipment">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="producer" property="producer"/>
+        <result column="type" property="type"/>
+        <result column="product_time" property="productTime"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="is_del" property="isDel"/>
+        <result column="boat_id" property="boatId"/>
+        <result column="status" property="status"/>
+        <result column="daily_hour" property="dailyHour"/>
+        <result column="cwbt_code" property="cwbtCode"/>
+        <result column="cwbt_code_4" property="cwbtCode4"/>
+        <result column="e_type" property="eType"/>
+    </resultMap>
+
+    <resultMap id="BoatServiceMap" type="com.safewind.pms.po.BoatFixService">
+        <result column="service_level" property="serviceLevel"/>
+        <result column="content" property="content"/>
+    </resultMap>
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.safewind.pms.po.Equipment" >
+
+        insert into hh_equipment ( name , producer , type , product_time , boat_id , daily_hour , cwbt_code , cwbt_code_4 , e_type , create_id , create_time ) values ( #{name} , #{producer} , #{type} , #{productTime} , #{boatId}, #{dailyHour} , #{cwbtCode} , #{cwbtCode4}, #{eType}, #{createId}, #{createTime})
+
+    </insert>
+
+    <select id="getEquipmentList" resultMap="EquipmentResultMap">
+      SELECT * FROM hh_equipment where is_del=0
+
+    </select>
+
+    <select id="getEquipment" resultMap="EquipmentResultMap">
+      SELECT * FROM  hh_equipment
+      WHERE id=#{id} and is_del=0
+
+    </select>
+
+    <select id="getEquipmentByBoatId" resultMap="EquipmentResultMap">
+        SELECT * FROM hh_equipment
+        WHERE boat_id=#{boatId} and is_del=0
+    </select>
+
+    <update id="update">
+        update hh_equipment set  producer = #{producer}, e_type = #{eType} , type = #{type}, daily_hour = #{dailyHour} , status = #{status} where id = #{id}
+    </update>
+
+    <update id="deleteEquipment">
+
+        update hh_equipment set  is_del = 1  where id = #{id}
+    </update>
+
+    <select id="getBoatServiceInfoByCwbtCode" resultMap="BoatServiceMap">
+
+    select service_level , content from hh_service_cwbt where cwbt_code = #{cwbtCode}
+
+    </select>
+
+    <select id="getSingleEquipmentService" resultMap="BoatServiceMap">
+
+        select service_level from hh_date_count where equipment_id = #{equipmentId} and is_del=0
+
+    </select>
+
+    <insert id="insertIntoBoatDateCount1">
+          insert into hh_date_count ( equipment_id , boat_id , service_level , day ) values ( #{equipmentId} , #{boatId}, #{serviceLevel}, #{day} )
+    </insert>
+
+    <insert id="insertIntoBoatDateCount2">
+        insert into hh_date_count ( equipment_id , boat_id , service_level , hour , count_type ) values ( #{equipmentId}, #{boatId} , #{serviceLevel} , #{hour} , 1 )
+    </insert>
+
+    <update id="updateBoatDateCount">
+       update hh_service_cwbt set ( content = #{content} ) where cwbt_code = #{cwbtCode} and service_level = #{serviceLevel}
+
+    </update>
+    <select id="getBoatServiceInfoByServiceLevel" resultMap="BoatServiceMap">
+       select content from hh_service_cwbt where service_level = #{0} AND cwbt_code = #{1}
+    </select>
+
+    <delete id="deleteServiceFromDateCountByEquipmentId">
+     delete from hh_date_count where equipment_id=#{equipmentId}
+
+    </delete>
+
+    <update id="deleteEquipmentByBoatId">
+       update hh_equipment set  is_del = 1  where boat_id = #{boatId}
+
+    </update>
+
+    <update id="deleteDateCountByBoatId">
+     update hh_date_count set is_del = 1 where boat_id = #{boatId}
+    </update>
+
+    <update id="deleteDateCountByEquipmentId">
+      update hh_date_count set is_del = 1 where equipment_id = #{boatId}
+    </update>
+</mapper>
+
+
+

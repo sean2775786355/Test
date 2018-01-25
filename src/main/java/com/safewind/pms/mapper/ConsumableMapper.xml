@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.ConsumableDao">
+	<resultMap type="com.safewind.pms.po.Consumable" id="consumable">
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="code" property="code"/>
+		<result column="productor_name" property="productor_name"/>
+		<result column="type" property="type"/>
+		<result column="standard_code" property="standard_code"/>
+		<result column="standard" property="standard"/>
+		<result column="level" property="level"/>
+		<result column="duty" property="duty"/>
+		<result column="storage" property="storage"/>
+		<result column="unit" property="unit"/>
+		<result column="cost" property="cost"/>
+		<result column="content" property="content"/>
+		<result column="url" property="url"/>
+		<result column="is_del" property="is_del"/>
+		<result column="create_id" property="create_id"/>
+		<result column="create_time" property="create_time"/>
+		<result column="currency" property="currency"/>
+	</resultMap>
+	
+	<insert id="consumableCreate" parameterType="com.safewind.pms.po.Consumable"
+		useGeneratedKeys="true" keyProperty="id">		
+		insert into hh_consumable 
+		( name , code , productor_name , type , standard_code , storage , level , 
+		duty , standard , unit , cost ,currency , content , url ,create_id ,create_time ) 
+		values (#{name},#{code},#{productor_name},#{type},#{standard_code},#{storage},#{level},
+		#{duty},#{standard},#{unit},#{cost},#{currency},#{content},#{url},#{create_id},#{create_time})
+	</insert>
+	
+	
+	<select id="consumableList" resultMap="consumable">
+		Select id, name , code , productor_name , type , standard_code , storage , 
+		level , duty , standard , unit , cost , url , content ,currency 
+		from hh_consumable 
+		where is_del = 0
+	</select>
+	
+	<select id="consumableFindDetail" resultMap="consumable">
+		Select id, name , code , productor_name , type , standard_code , storage , 
+		level , duty , standard , unit , cost , url , content ,currency
+		from hh_consumable where id = #{id}
+	</select>
+	
+	<update id="consumableDelete" >
+		Update hh_consumable set is_del = 1 where id = #{id}
+    </update>
+    
+    <update id="consumableSubmit" >
+		Update hh_consumable 
+		set name = #{name} , code = #{code} , productor_name = #{productor_name} , type = #{type} , 
+		standard_code = #{standard_code} , storage = #{storage} , level = #{level} , duty = #{duty} ,
+		standard = #{standard} , unit = #{unit} , cost = #{cost} , currency = #{currency} , 
+		content = #{content} , url = #{url}, create_id = #{create_id}, create_time = #{create_time} where id = #{id}
+    </update>
+    
+    <resultMap type="com.safewind.pms.po.ConsumableApply" id="consumableApply">
+		<result column="id" property="id"/>
+		<result column="boat_id" property="boat_id"/>
+		<result column="consumable_id" property="consumable_id"/>
+		<result column="count" property="count"/>
+		<result column="eta" property="eta"/>
+		<result column="port" property="port"/>
+		<result column="status" property="status"/>
+		<result column="precheck_content" property="precheck_content"/>
+		<result column="check_id" property="check_id"/>
+		<result column="create_id" property="create_id"/>
+		<result column="create_time" property="create_time"/>
+		<result column="content" property="content"/>
+		<result column="is_del" property="is_del"/>
+	</resultMap>
+      	
+	<insert id="consumableApplyCreate" parameterType="com.safewind.pms.po.ConsumableApply"
+		useGeneratedKeys="true" keyProperty="id">	
+		Insert into hh_consumable_apply ( boat_id , consumable_id , count , eta , port , 
+		create_id , create_time , content ) 
+		values ( #{boat_id},#{consumable_id},#{count},#{eta},#{port},#{create_id},#{create_time},#{content})	
+	</insert>
+    
+    <select id="consumableApplyList" resultType="com.safewind.pms.po.ConsumableApply">
+		Select id , consumable_id , boat_id , eta , count , status ,create_id
+		from hh_consumable_apply where is_del = 0 order by status
+	</select>
+	
+	<select id="consumableApplyFindName" resultType="java.lang.String">
+		select name from hh_consumable where id = #{id} and is_del = 0
+	</select>
+	
+	<select id="consumableApplyFindDetail" resultType="com.safewind.pms.po.ConsumableApply">
+		Select id ,boat_id , consumable_id , count , eta , port , content , create_id
+		from hh_consumable_apply where id = #{id} and is_del = 0
+	</select>
+
+	<select id="getConsumableApplyById" resultType="com.safewind.pms.po.ConsumableApply">
+		Select *
+		from hh_consumable_apply where id = #{id}
+	</select>
+
+	
+	<update id="consumableApplyUpdate" >
+		Update hh_consumable_apply 
+		set  status = #{0} , precheck_content = #{2} , check_id = #{3}  where id = #{1}
+    </update>
+
+	<update id="consumableApplyStatusUpdate" >
+		Update hh_consumable_apply
+		set  status = #{0}
+		where id = #{1}
+	</update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

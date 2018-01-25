@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.safewind.pms.mapper.AssignDao">
+    <resultMap id="Attemper" type="com.safewind.pms.po.Attemper">
+        <id column="id" property="id"/>
+        <result column="sailor_id" property="sailor_id"/>
+        <result column="name" property="name"/>
+        <result column="status" property="status"/>
+        <result column="longevity_id" property="longevity_id"/>
+        <result column="update_id" property="update_id"/>
+        <result column="update_time" property="update_time"/>
+        <result column="time" property="time"/>
+        <result column="is_del" property="is_del"/>
+        <result column="boat_id" property="boat_id"/>
+        <result column="duty" property="duty"/>
+        <result column="content" property="content"/>
+    </resultMap>
+    <resultMap id="ServiceDate" type="com.safewind.pms.po.ServiceDate">
+        <id column="id" property="id"/>
+        <result column="equipment_id" property="equipmentId"/>
+        <result column="bcr_id" property="bcrId"/>
+        <result column="finish_time" property="finishTime"/>
+        <result column="did_id" property="didId"/>
+        <result column="check_id" property="checkId"/>
+        <result column="check_status" property="checkStatus"/>
+        <result column="is_band" property="isBand"/>
+        <result column="is_del" property="isDel"/>
+        <result column="is_done" property="isDone"/>
+        <result column="content" property="content"/>
+        <result column="did_time" property="didTime"/>
+        <result column="check_time" property="checkTime"/>
+        <result column="date_type" property="dateType"/>
+        <result column="check_type" property="checkType"/>
+        <result column="status" property="status"/>
+        <result column="service_level" property="serviceLevel"/>
+        <result column="service_content" property="serviceContent"/>
+        <result column="shore_id" property="shoreId"/>
+        <result column="boat_id" property="boatId"/>
+        <result column="shore_time" property="shoreTime"/>
+        <result column="estimated_time" property="estimatedTime"/>
+        <result column="shore_content" property="shoreContent"/>
+        <result column="pre_id" property="preId"/>
+        <result column="type" property="type"/>
+        <result column="check_content" property="checkContent"/>
+        <result column="e_type" property="eType"/>
+        <result column="band_content" property="bandContent"/>
+
+    </resultMap>
+
+    <select id="getAttemperBySailorId" resultMap="Attemper">
+        select *
+        from hh_attemper
+        where sailor_id = #{sailorId}
+    </select>
+<!--id , equipment_id , service_level , estimated_time,service_content,check_id,boat_id -->
+    <select id="getServiceDateByBoatIdStatus" resultMap="ServiceDate">
+        select  *
+        from hh_service_date
+        where e_type = #{0}
+        AND boat_id = #{1}
+        AND is_band = 0
+        AND (check_status = #{2} OR check_status = #{3})
+    </select>
+
+    <select id="getServiceDateByAshoreId" resultMap="ServiceDate">
+        select  *
+        from hh_service_date
+        where check_status = 4
+        AND shore_id = #{0}
+    </select>
+
+    <select id="getServiceDateByDidId" resultMap="ServiceDate">
+        select  *
+        from hh_service_date
+        where did_id = #{0}
+        AND is_band = 0
+        AND (check_status = 1 OR check_status = 3)
+    </select>
+
+    <select id="getAvailableAttemper" resultMap="Attemper">
+        select *
+        from hh_attemper
+        where boat_id = #{boatId}
+        and is_del = 0
+        and status = 1
+    </select>
+
+    <update id="serviceDateAssignOk" >
+        update hh_service_date
+        set  service_content = #{1} , did_id = #{2} , check_status = 1 , check_id = #{3}
+        where id =#{0}
+    </update>
+
+    <update id="giveUp" >
+        update hh_service_date
+        set  band_content = #{1} ,is_band=1,check_status = 4 ,shore_id = #{2}
+        where id =#{0}
+    </update>
+
+    <update id="serviceDateReportOk" >
+        update hh_service_date
+        set  did_time = #{1} , content = #{2} , check_status = 2
+        where id =#{0}
+    </update>
+
+    <update id="serviceDateBocheckOk" >
+        update hh_service_date
+        set  check_time = #{1} , check_status = 4 , shore_id = #{2}
+        where id =#{0}
+    </update>
+
+    <update id="serviceDateShcheckOk" >
+        update hh_service_date
+        set  check_status = 5 , shore_time =#{1},shore_content=#{2}
+        where id =#{0}
+    </update>
+
+    <update id="serviceDateShcheckNo" >
+        update hh_service_date
+        set  check_status = 6 , shore_content=#{1}
+        where id =#{0}
+    </update>
+
+
+
+
+
+</mapper>
